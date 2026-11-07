@@ -3,17 +3,17 @@
 # To change your settings, answer the questionnaire again: Issues tab, New issue, Job search setup.
 
 [job_titles]
-titles = []
+titles = ["archivist"]
 
 [where_you_live]
 remote_only = "yes"
-state = ""
-state_abbreviation = ""
+state = "texas"
+state_abbreviation = "TX"
 cities = []
 
 [salary]
 # 0 = no minimum
-minimum_single_salary = 0
+minimum_single_salary = 65000
 minimum_range_start = 0
 range_end_must_be_above = 0
 
@@ -27,8 +27,8 @@ certifications_allowed_before_hire = []
 # Words that rule out a job ("required" = only when the job requires them; "mentioned" = whenever they appear)
 [[filters.requirement_rule]]
 name = "Words that rule out a job"
-on = "no"
-terms = []
+on = "yes"
+terms = ["christian"]
 reject_when = "required"
 
 [companies_to_watch]
