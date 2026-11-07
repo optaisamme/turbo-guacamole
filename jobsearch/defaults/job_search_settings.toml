@@ -1,0 +1,50 @@
+# YOUR JOB SEARCH SETTINGS
+# This file is filled in by the setup questionnaire. You do not need to edit it.
+# To change your settings, answer the questionnaire again: Issues tab, New issue, Job search setup.
+
+[job_titles]
+titles = []
+
+[where_you_live]
+remote_only = "yes"
+state = ""
+state_abbreviation = ""
+cities = []
+
+[salary]
+# 0 = no minimum
+minimum_single_salary = 0
+minimum_range_start = 0
+range_end_must_be_above = 0
+
+[filters]
+description_must_mention = []
+exclude_titles_containing = []
+exclude_employers = []
+check_certifications = "no"
+certifications_allowed_before_hire = []
+
+# Words that rule out a job ("required" = only when the job requires them; "mentioned" = whenever they appear)
+[[filters.requirement_rule]]
+name = "Words that rule out a job"
+on = "no"
+terms = []
+reject_when = "required"
+
+[companies_to_watch]
+job_page_links = []
+
+[skills_matching]
+on = "no"
+required_keywords = []
+required_keywords_rule = "all"
+minimum_skills_matched = 3
+
+[automatic_weekly_search]
+on = "no"
+day = "Friday"
+
+[search_size]
+newest_jobs_per_site = 1000
+jobs_per_search_word = 200
+jobicy_max_jobs = 5000

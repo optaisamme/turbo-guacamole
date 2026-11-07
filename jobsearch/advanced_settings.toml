@@ -1,0 +1,21 @@
+# DO NOT EDIT. Built-in technical defaults used by the program.
+# Your own search settings are in JOB_SEARCH_SETTINGS/job_search_settings.toml (set by the questionnaire).
+
+titles = []          # filled from your settings file
+
+[title_rules]
+
+[search]
+queries = []         # filled from your settings file (or your job titles)
+
+[http]
+user_agent = "job-search-automation/1.0 (job search tool; contact via repository owner)"
+min_interval_seconds = 1.5    # per-host rate limit
+max_retries = 4
+timeout_seconds = 25
+respect_robots_for_html = true
+
+[sources]
+# ATS boards operated by recruiting intermediaries posting on behalf of unnamed clients.
+# Their postings are treated as third-party (never employer-direct) and cannot qualify alone.
+intermediary_boards = ["jobgether", "hirehangar"]

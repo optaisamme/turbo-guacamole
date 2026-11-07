@@ -1,0 +1,123 @@
+# Runs the job search. You do not need to edit this file.
+# A search starts when you click "Run workflow" on the Actions tab, when the setup questionnaire
+# starts one for you, or on your weekly day if automatic weekly searches are on (questionnaire).
+# This file checks once a day (around 13:47 UTC) whether today is that day.
+
+name: Run job search
+
+on:
+  schedule:
+    # Checks once a day; a search starts only on the day chosen in the questionnaire (when weekly searches are on).
+    - cron: "47 13 * * *"
+  workflow_dispatch: {}   # adds a "Run workflow" button on the Actions tab
+
+permissions: {}   # no access by default; the search job below gets only what it needs
+
+concurrency:
+  group: weekly-job-search
+  cancel-in-progress: false
+
+jobs:
+  # Decides whether to search. A search you start yourself always runs; the daily check only
+  # searches on your weekly day, when automatic weekly searches are on.
+  check-automatic-search-switch:
+    name: Check whether to search now
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read   # reads the weekly search setting
+    outputs:
+      run: ${{ steps.decide.outputs.run }}
+    steps:
+      - uses: actions/checkout@v5
+        if: github.event_name == 'schedule'
+        with:
+          persist-credentials: false
+          sparse-checkout: JOB_SEARCH_SETTINGS
+      - uses: actions/setup-python@v6
+        if: github.event_name == 'schedule'
+        with:
+          python-version: "3.12"
+      - id: decide
+        run: |
+          if [ "${{ github.event_name }}" != "schedule" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"   # a search you start yourself always runs
+            exit 0
+          fi
+          read on day < <(python - <<'PY'
+          import tomllib
+          try:
+              s = tomllib.load(open("JOB_SEARCH_SETTINGS/job_search_settings.toml", "rb")).get("automatic_weekly_search", {})
+          except Exception:
+              s = {}
+          on = str(s.get("on", "no")).strip().lower() in ("yes", "y", "true", "on", "1")
+          print("yes" if on else "no", str(s.get("day", "Friday")).strip().capitalize() or "Friday")
+          PY
+          )
+          today=$(date -u +%A)
+          if [ "$on" = "yes" ] && [ "$today" = "$day" ]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "No search today (automatic weekly searches: $on; day: $day; today: $today)."
+            echo "### No automatic search today. Weekly searches: $on, day: $day (set in the setup questionnaire)." >> "$GITHUB_STEP_SUMMARY"
+            echo "run=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  search:
+    name: Search for jobs
+    needs: check-automatic-search-switch
+    if: needs.check-automatic-search-switch.outputs.run == 'true'
+    runs-on: ubuntu-24.04   # pinned: ubuntu-latest is moving to Ubuntu 26.04
+    timeout-minutes: 60
+    permissions:
+      contents: write   # save results back to this repository (used only in the last step)
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false   # no saved login while untrusted job pages are opened
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Check settings files
+        run: python -m jobsearch check
+
+      - name: Install headless browser (reads job pages that need JavaScript)
+        run: |
+          npm install --no-save --no-audit --no-fund playwright@1.64.1
+          npx playwright install --with-deps chromium
+
+      - name: Search for jobs
+        env:
+          # Optional free web search key (Settings > Secrets and variables > Actions). Leave unset to skip.
+          TAVILY_API_KEY: ${{ secrets.TAVILY_API_KEY }}
+        run: python -m jobsearch run
+
+      - name: Re-check links and prepare results
+        run: python -m jobsearch outbox prepare
+
+      - name: Update JOB_SEARCH_RESULTS folder and show results on this page
+        if: always()
+        run: python scripts/write_results_page.py
+
+      - name: Save results to the repository
+        if: always()
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # The login is added only now, after every job page has been opened.
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git config user.name "job-search-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add data JOB_SEARCH_RESULTS || true
+          git diff --cached --quiet && echo "No changes to save." && exit 0
+          git commit -m "Weekly job search results $(date -u +%Y-%m-%d)"
+          # If a file was saved on GitHub while the search ran, merge that change first, then save again.
+          for attempt in 1 2 3 4; do
+            git push && exit 0
+            echo "A file was changed while the search ran. Adding that change and trying again ($attempt of 4)."
+            sleep $((attempt * 5))
+            git pull --rebase --no-edit origin "${GITHUB_REF_NAME}" || git rebase --abort
+          done
+          echo "::error::The results could not be saved. Start the search again from the Actions tab."
+          exit 1

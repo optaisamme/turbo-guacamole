@@ -1,0 +1,61 @@
+# =====================================================================
+#  EDIT ME  (file 2 of 3): YOUR EXPERIENCE  (optional)
+# =====================================================================
+#  WHAT THIS FILE DOES
+#    Describes your skills so each job result can show how well it fits you:
+#      - skills the job asks for that you HAVE shown in your work history,
+#      - skills you have that transfer,
+#      - skills the job asks for that are NOT in this file ("not documented").
+#    It NEVER rejects a job. It can stay empty.
+#
+#  HOW TO EDIT IT (on the GitHub website)
+#    1. Click the pencil icon (top right of this file).
+#    2. For each skill: copy an EXAMPLE block below to the bottom of the
+#       file, remove the "# " at the start of each copied line, and fill it in.
+#    3. Click "Commit changes" (green button), then "Commit changes" again.
+#
+#  WHAT HAPPENS AFTER YOU SAVE
+#    Fit notes in results from the NEXT run on use your updated profile.
+#    Jobs already posted to you are not posted again.
+# =====================================================================
+#
+#  Lines starting with "#" are notes and EXAMPLES; the program ignores them.
+#  To add a skill: copy an example block to the bottom of the file, delete
+#  the "# " at the start of each line, and edit it.
+#    name     = the skill
+#    kind     = "demonstrated" (you have done it) or "transferable"
+#    keywords = words a job posting might use for it (lowercase; a partial
+#               word like "automat" matches "automation" and "automate")
+#    evidence = where you did it (employer, what you did)
+#  Put ONLY what you have actually done. No phone, email or address.
+#
+#  EXAMPLE skill:
+#  [[skills]]
+#  name = "Reports & dashboards"
+#  kind = "demonstrated"
+#  keywords = ['report', 'dashboard']
+#  evidence = "Built donor-retention dashboards at Example Org (2022-2024)."
+#
+#  EXAMPLE transferable skill:
+#  [[skills]]
+#  name = "Project coordination"
+#  kind = "transferable"
+#  keywords = ['project management', 'coordinat', 'timeline']
+#  evidence = "Coordinated a 6-month program launch at school."
+#
+#  EXAMPLE gap (a skill you DON'T have yet; jobs asking for it are flagged
+#  "not documented in profile" so you can prepare):
+#  [[gaps]]
+#  name = "SQL"
+#  keywords = ['sql']
+# =====================================================================
+
+[tenure]
+# Years of hands-on experience in your field. When filled in, jobs asking for more
+# years than this are flagged. 0 = not filled in (no comparison).
+# EXAMPLE:  years_of_experience = 3
+years_of_experience = 0
+# Certifications you currently HOLD (shown as fit notes). EXAMPLE: ["CPR", "Food Handler"]
+certifications_held = []
+
+# (add your [[skills]] and [[gaps]] blocks below)

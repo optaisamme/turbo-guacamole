@@ -1,0 +1,10 @@
+# YOUR EXPERIENCE (optional)
+# This file is filled in by the setup questionnaire (Step 6: About you). You do not need to edit it.
+# It never removes a job: it shows how well each job fits you, and is used by skills-based matching.
+
+[tenure]
+# 0 = not filled in
+years_of_experience = 0
+certifications_held = []
+
+# (skills from the questionnaire are saved below)

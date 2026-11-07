@@ -1,0 +1,85 @@
+# Applies the "Job search setup" questionnaire (Issues tab > New issue > Job search setup).
+# You do not need to edit this file.
+#
+# When the owner of this copy (or a collaborator) submits or edits the questionnaire, this:
+#   1. reads the answers and updates JOB_SEARCH_SETTINGS (settings and experience files),
+#   2. checks and saves the settings,
+#   3. starts a search if you asked for one,
+#   4. replies on the issue with what changed and a link to the search.
+# Answers from anyone else are ignored, so strangers cannot change your settings.
+name: Apply setup questionnaire
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions: {}   # no access by default; the job below gets only what it needs
+
+concurrency:
+  group: weekly-job-search   # never change settings while a search is saving results
+  cancel-in-progress: false
+
+jobs:
+  apply:
+    if: startsWith(github.event.issue.title, 'Job search setup')
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: write   # save the settings files (used only in the save step)
+      issues: write     # reply on the questionnaire issue
+      actions: write    # start a search when you ask for one
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.12"
+
+      - name: Read the answers and update the settings
+        id: apply
+        env:
+          # The answers are passed as data, never run as commands.
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          AUTHOR_ASSOCIATION: ${{ github.event.issue.author_association }}
+          IS_TEMPLATE: ${{ github.event.repository.is_template }}   # the shared template is never changed
+        run: |
+          python scripts/apply_questionnaire.py
+          echo "changed=$(cat out/questionnaire_changed.txt)" >> "$GITHUB_OUTPUT"
+          echo "run_now=$(cat out/questionnaire_run_now.txt)" >> "$GITHUB_OUTPUT"
+          echo "ok=$(cat out/questionnaire_ok.txt)" >> "$GITHUB_OUTPUT"
+
+      - name: Save the settings
+        if: steps.apply.outputs.changed == 'yes'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git remote set-url origin "https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git config user.name "job-search-bot"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add JOB_SEARCH_SETTINGS
+          git commit -m "Settings from the Job search setup questionnaire (issue #${{ github.event.issue.number }})"
+          for attempt in 1 2 3 4; do
+            git push && exit 0
+            sleep $((attempt * 5))
+            git pull --rebase --no-edit origin "${GITHUB_REF_NAME}" || git rebase --abort
+          done
+          echo "::error::The settings could not be saved. Edit the questionnaire issue and save it to try again."
+          exit 1
+
+      - name: Start a search
+        id: start
+        if: steps.apply.outputs.ok == 'yes' && steps.apply.outputs.run_now == 'yes'
+        continue-on-error: true   # the reply below says what happened, with a link
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: python scripts/apply_questionnaire.py --start-search
+
+      - name: Reply on the issue
+        if: always() && steps.apply.outcome == 'success'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+        run: python scripts/apply_questionnaire.py --reply

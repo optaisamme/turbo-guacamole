@@ -1,0 +1,58 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="640" viewBox="0 0 900 640" font-family="-apple-system, Segoe UI, Helvetica, Arial, sans-serif">
+  <title>How to make your own copy of this project on GitHub</title>
+  <rect x="0" y="0" width="900" height="640" fill="#ffffff" stroke="#d0d7de" rx="8"/>
+
+  <!-- PART A: the shared project page -->
+  <text x="24" y="30" font-size="13" font-weight="700" fill="#57606a">A.  ON THE SHARED PROJECT PAGE (signed in to GitHub)</text>
+  <rect x="16" y="42" width="868" height="200" fill="#ffffff" stroke="#d0d7de" rx="6"/>
+  <rect x="17" y="43" width="866" height="86" fill="#f6f8fa" rx="6"/>
+  <text x="34" y="74" font-size="17" fill="#0969da">optaisamme / <tspan font-weight="700">job-search-automation-publicuse</tspan></text>
+  <rect x="600" y="58" width="44" height="22" fill="#ffffff" stroke="#d0d7de" rx="11"/>
+  <text x="622" y="73" font-size="11" fill="#57606a" text-anchor="middle">Public</text>
+  <text x="34" y="116" font-size="14" fill="#24292f">Code</text>
+  <text x="94" y="116" font-size="14" fill="#24292f">Issues</text>
+  <text x="160" y="116" font-size="14" fill="#24292f">Pull requests</text>
+  <text x="270" y="116" font-size="14" fill="#24292f">Actions</text>
+
+  <rect x="676" y="140" width="190" height="32" fill="#1f883d" stroke="#bf8700" stroke-width="2" rx="6"/>
+  <text x="771" y="161" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">Use this template  ▾</text>
+  <circle cx="660" cy="156" r="13" fill="#cf222e"/><text x="660" y="161" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">1</text>
+  <text x="34" y="162" font-size="13" fill="#57606a">(green button, right side, just above the list of files)</text>
+
+  <rect x="640" y="178" width="226" height="56" fill="#ffffff" stroke="#8c959f" rx="6"/>
+  <rect x="648" y="186" width="210" height="26" fill="#fff8c5" stroke="#bf8700" stroke-width="2" rx="4"/>
+  <text x="658" y="204" font-size="13" font-weight="700" fill="#24292f">Create a new repository</text>
+  <text x="658" y="228" font-size="12" fill="#8c959f">Open in a codespace</text>
+  <circle cx="624" cy="199" r="13" fill="#cf222e"/><text x="624" y="204" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">2</text>
+
+  <!-- PART B: create a new repository form -->
+  <text x="24" y="276" font-size="13" font-weight="700" fill="#57606a">B.  ON THE "CREATE A NEW REPOSITORY" PAGE THAT OPENS</text>
+  <rect x="16" y="288" width="868" height="250" fill="#ffffff" stroke="#d0d7de" rx="6"/>
+  <text x="34" y="320" font-size="18" font-weight="700" fill="#24292f">Create a new repository</text>
+
+  <text x="34" y="352" font-size="13" font-weight="700" fill="#24292f">Owner</text>
+  <rect x="34" y="360" width="170" height="30" fill="#f6f8fa" stroke="#d0d7de" rx="6"/>
+  <text x="44" y="380" font-size="13" fill="#24292f">your-username  ▾</text>
+  <text x="214" y="381" font-size="18" fill="#57606a">/</text>
+  <text x="230" y="352" font-size="13" font-weight="700" fill="#24292f">Repository name</text>
+  <rect x="230" y="360" width="220" height="30" fill="#ffffff" stroke="#bf8700" stroke-width="2" rx="6"/>
+  <text x="240" y="380" font-size="13" fill="#24292f">my-job-search</text>
+  <circle cx="466" cy="375" r="13" fill="#cf222e"/><text x="466" y="380" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">3</text>
+
+  <circle cx="44" cy="420" r="7" fill="#ffffff" stroke="#8c959f" stroke-width="2"/>
+  <text x="60" y="425" font-size="13" fill="#24292f">Public</text>
+  <rect x="30" y="436" width="300" height="30" fill="#fff8c5" stroke="#bf8700" stroke-width="2" rx="6"/>
+  <circle cx="44" cy="451" r="7" fill="#ffffff" stroke="#0969da" stroke-width="2"/><circle cx="44" cy="451" r="3.5" fill="#0969da"/>
+  <text x="60" y="456" font-size="13" font-weight="700" fill="#24292f">Private  <tspan font-weight="400" fill="#57606a">(only you can see it)</tspan></text>
+  <circle cx="346" cy="451" r="13" fill="#cf222e"/><text x="346" y="456" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">4</text>
+
+  <rect x="34" y="490" width="160" height="34" fill="#1f883d" stroke="#bf8700" stroke-width="2" rx="6"/>
+  <text x="114" y="512" font-size="14" font-weight="700" fill="#ffffff" text-anchor="middle">Create repository</text>
+  <circle cx="210" cy="507" r="13" fill="#cf222e"/><text x="210" y="512" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">5</text>
+  <text x="520" y="380" font-size="12" fill="#57606a">Leave everything else as it is.</text>
+
+  <!-- legend -->
+  <text x="24" y="566" font-size="14" fill="#24292f"><tspan font-weight="700">1</tspan>  Click the green <tspan font-weight="700">Use this template</tspan> button.   <tspan font-weight="700">2</tspan>  Click <tspan font-weight="700">Create a new repository</tspan>.</text>
+  <text x="24" y="592" font-size="14" fill="#24292f"><tspan font-weight="700">3</tspan>  Type a name, for example <tspan font-weight="700">my-job-search</tspan>.   <tspan font-weight="700">4</tspan>  Choose <tspan font-weight="700">Private</tspan>.   <tspan font-weight="700">5</tspan>  Click <tspan font-weight="700">Create repository</tspan>.</text>
+  <text x="24" y="620" font-size="12" fill="#57606a">After about 10 seconds your copy opens. Its name at the top starts with YOUR username. Do every other step in this copy.</text>
+</svg>

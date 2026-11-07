@@ -1,0 +1,10 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+logs/
+out/
+.env
+*.pdf
+*.sqlite-journal
+node_modules/
+package-lock.json
